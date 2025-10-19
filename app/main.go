@@ -130,21 +130,8 @@ func UserAgentHandler(conn net.Conn, reqHeader RequestHeader) {
 	SendResponse(conn, fmt.Appendf(nil, "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: %d\r\n\r\n%s", len(val), val))
 }
 
-func main() {
-	// Creates an HTTP server
-	l, err := net.Listen("tcp", "0.0.0.0:4221")
-	if err != nil {
-		fmt.Println("Failed to bind to port 4221")
-		os.Exit(1)
-	}
-	defer l.Close()
-
-	// Wait for a connection
-	conn, err := l.Accept()
-	if err != nil {
-		fmt.Println("Error accepting connection: ", err.Error())
-		os.Exit(1)
-	}
+// HandleConnection handles the single connect request
+func HandleConnection(conn net.Conn) {
 	defer conn.Close()
 
 	// Read the request line from the connection
@@ -169,5 +156,27 @@ func main() {
 		EchoHandler(conn, reqLine)
 	} else {
 		NotFoundHandler(conn)
+	}
+}
+
+func main() {
+	// Creates an HTTP server
+	l, err := net.Listen("tcp", "0.0.0.0:4221")
+	if err != nil {
+		fmt.Println("Failed to bind to port 4221")
+		os.Exit(1)
+	}
+	defer l.Close()
+
+	for {
+		// Wait for a connection
+		conn, err := l.Accept()
+		if err != nil {
+			fmt.Println("Error accepting connection: ", err.Error())
+			os.Exit(1)
+		}
+
+		// Handle the connection in a separate goroutine
+		go HandleConnection(conn)
 	}
 }
