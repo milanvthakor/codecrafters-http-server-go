@@ -150,7 +150,7 @@ func SaveFileHandler(c *ConnHandler, dir, filename string) {
 
 // HandleConnection handles the single connect request
 func HandleConnection(c *ConnHandler, flags map[string]any) {
-	defer c.conn.Close()
+	// defer c.conn.Close()
 
 	// Select endpoint handler based on the request
 	switch {
@@ -187,6 +187,15 @@ func HandleConnection(c *ConnHandler, flags map[string]any) {
 	default:
 		NotFoundHandler(c)
 	}
+
+	// Handle the new request on the same connection
+	connHandler, err := NewConnHandler(c.conn)
+	if err != nil {
+		fmt.Println("Error creating the handler: ", err.Error())
+		return
+	}
+
+	HandleConnection(connHandler, flags)
 }
 
 func main() {
@@ -212,13 +221,13 @@ func main() {
 		conn, err := l.Accept()
 		if err != nil {
 			fmt.Println("Error accepting connection: ", err.Error())
-			os.Exit(1)
+			continue
 		}
 
 		connHandler, err := NewConnHandler(conn)
 		if err != nil {
 			fmt.Println("Error creating the handler: ", err.Error())
-			os.Exit(1)
+			continue
 		}
 
 		// Handle the connection in a separate goroutine
