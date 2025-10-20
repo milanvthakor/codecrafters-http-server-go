@@ -156,11 +156,18 @@ func HandleConnection(conn net.Conn, flags map[string]any) {
 		// Create the handler for the request
 		c, err := NewConnHandler(conn)
 		if err == io.EOF {
-			break
+			return
 		}
 		if err != nil {
 			fmt.Println("Error creating the handler: ", err.Error())
 			continue
+		}
+
+		// Add the connection close header in response if present in the request
+		var shouldCloseConn bool
+		if close, ok := c.reqHeader["Connection"]; ok && close == "close" {
+			c.Header("Connection", "close")
+			shouldCloseConn = true
 		}
 
 		// Select endpoint handler based on the request
@@ -197,6 +204,12 @@ func HandleConnection(conn net.Conn, flags map[string]any) {
 
 		default:
 			NotFoundHandler(c)
+		}
+
+		// Close the connection
+		if shouldCloseConn {
+			conn.Close()
+			return
 		}
 	}
 }
