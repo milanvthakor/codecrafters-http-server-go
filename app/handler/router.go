@@ -3,7 +3,7 @@ package handler
 import (
 	"net"
 
-	"github.com/codecrafters-io/http-server-starter-go/app/http"
+	"octo-server/app/http"
 )
 
 // Router handles HTTP request routing

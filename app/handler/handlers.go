@@ -7,8 +7,8 @@ import (
 	"os"
 	"regexp"
 
-	"github.com/codecrafters-io/http-server-starter-go/app/compression"
-	"github.com/codecrafters-io/http-server-starter-go/app/http"
+	"octo-server/app/compression"
+	"octo-server/app/http"
 )
 
 var (

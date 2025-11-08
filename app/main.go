@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/codecrafters-io/http-server-starter-go/app/config"
-	"github.com/codecrafters-io/http-server-starter-go/app/server"
+	"octo-server/app/config"
+	"octo-server/app/server"
 )
 
 func main() {

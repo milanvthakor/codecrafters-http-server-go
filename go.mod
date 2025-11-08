@@ -1,3 +1,3 @@
-module github.com/codecrafters-io/http-server-starter-go
+module octo-server
 
 go 1.24.0

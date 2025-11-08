@@ -6,9 +6,9 @@ import (
 	"net"
 	"os"
 
-	"github.com/codecrafters-io/http-server-starter-go/app/config"
-	"github.com/codecrafters-io/http-server-starter-go/app/handler"
-	"github.com/codecrafters-io/http-server-starter-go/app/http"
+	"octo-server/app/config"
+	"octo-server/app/handler"
+	"octo-server/app/http"
 )
 
 // Server represents the HTTP server

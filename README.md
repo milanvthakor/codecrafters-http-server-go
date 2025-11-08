@@ -28,7 +28,7 @@ A lightweight HTTP/1.1 server implementation in Go, built from scratch. This ser
 1. Clone the repository:
 ```bash
 git clone <repository-url>
-cd codecrafters-http-server-go
+cd octo-server
 ```
 
 ### Running the Server
